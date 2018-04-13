@@ -149,7 +149,7 @@ def main():
     parser.add_argument('--epoch'    , dest='epoch'      , type=int, default=100,          help='number of epochs to learn')
     parser.add_argument('--batchsize', dest='batchsize'  , type=int, default=10,           help='learning minibatch size')
     parser.add_argument('--units'    , dest='units'      , type=int, default=500,           help='number of hidden unit')
-    parser.add_argument('--labelnum'    , dest='labelnum'      , type=int, default=203,           help='number of all label num')
+    parser.add_argument('--labelnum'    , dest='labelnum'      , type=int, default=3,           help='number of all label num')
     parser.add_argument('--classificnum'    , dest='classificnum'      , type=int, default=3,           help='number of classific num')
     args = parser.parse_args()
 
