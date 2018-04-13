@@ -26,7 +26,7 @@ def make_name2serif(f_name,c_num):
 
 def tokenize(text):
     '''
-    とりあえず形態素解析して名詞だけ取り出す感じにしてる
+    形態素解析して名詞だけ取り出す感じにしてる
     '''
     node = mecab.parseToNode(text)
     while node:
@@ -36,13 +36,13 @@ def tokenize(text):
 
 def get_words_main(content):
     '''
-    一つの記事を形態素解析して返す
+    contentを形態素解析してリストに
     '''
     return [token for token in tokenize(content)]
 
 def get_vector(dictionary, content):
     '''
-    ある記事の特徴語カウント
+    特徴語カウント(BoW)
     '''
     tmp = dictionary.doc2bow(get_words_main(content))
     dense = list(matutils.corpus2dense([tmp], num_terms=len(dictionary)).T[0])
@@ -66,15 +66,15 @@ def main():
     datasets = {}
     datasets['data'] = np.array(data_train)
     datasets['label'] = np.array(label_train)
-    # 学習データと試験データに分けてみる
+    
     data_train_s, data_test_s, label_train_s, label_test_s = train_test_split(datasets['data'], datasets['label'], test_size=0.15)
 
-    # 分類器をもう一度定義
-    estimator2 = RandomForestClassifier()
+    # 分類器を定義
+    estimator = RandomForestClassifier()
 
     # 学習
-    estimator2.fit(data_train_s, label_train_s)
-    print(estimator2.score(data_test_s, label_test_s))
+    estimator.fit(data_train_s, label_train_s)
+    print(estimator.score(data_test_s, label_test_s))
 
 
 if __name__ == '__main__':
