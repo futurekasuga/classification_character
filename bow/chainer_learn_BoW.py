@@ -82,7 +82,7 @@ def save(model,optimizer):
 
 
 
-def make_name2serif(f_name,c_num):
+def make_name2serif(f_name):
     """
     自分の分類したいデータセットに応じて書き換えてください
     今回は台詞からキャラの分類をしたいのでこの形式です。
@@ -98,11 +98,6 @@ def make_name2serif(f_name,c_num):
         if not name2id.get(name):
             name2id[name] = name_id
             name_id += 1
-
-        #本来ならすべて分類すべきだが分類先が多すぎると
-        #学習がうまくいかないため上限を設けている
-        if name_id == c_num+1:
-            break;
     return name2serif,name2id
 
 def tokenize(text):
@@ -160,12 +155,11 @@ def main():
     parser.add_argument('--batchsize', dest='batchsize'  , type=int, default=10,           help='learning minibatch size')
     parser.add_argument('--units'    , dest='units'      , type=int, default=500,           help='number of hidden unit')
     parser.add_argument('--labelnum'    , dest='labelnum'      , type=int, default=3,           help='number of all label num')
-    parser.add_argument('--classificnum'    , dest='classificnum'      , type=int, default=3,           help='number of classific num')
     args = parser.parse_args()
 
 
     #対象にするデータセットの準備
-    dataset = load_data(args.data,args.dict,args.classificnum)
+    dataset = load_data(args.data,args.dict)
     #文書のベクトルと正解ラベルの設定
     dataset['serif'] = dataset['serif'].astype(np.float32)
     dataset['character'] = dataset['character'].astype(np.int32)
